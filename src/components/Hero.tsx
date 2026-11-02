@@ -163,7 +163,7 @@ export default function Hero({ isPageReady = true }: { isPageReady?: boolean }) 
     { name: "GitHub", icon: <FaGithub />, href: "https://github.com/aayushtyagi00" },
     { name: "LinkedIn", icon: <FaLinkedin />, href: "https://linkedin.com/in/aayushtyagi00" },
     { name: "Twitter / X", icon: <FaXTwitter />, href: "https://x.com/aayushtyagi00" },
-    { name: "Instagram", icon: <FaInstagram />, href: "https://instagram.com/aayushtyagi00" },
+    { name: "Instagram", icon: <FaInstagram />, href: "https://www.instagram.com/_aayush.tyagi_/" },
     { name: "Email", icon: <FaEnvelope />, href: "mailto:tyagiaayush3030@gmail.com" },
   ];
 
