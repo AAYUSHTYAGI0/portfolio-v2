@@ -9,8 +9,8 @@ import {
 import { profile } from "../content";
 
 const formId =
-  import.meta.env.VITE_FORMSPREE_KEY ||
-  import.meta.env.VITE_FORMSPREE_FORM_ID ||
+  import.meta.env.VITE_FORMSPREE_KEY?.trim() ||
+  import.meta.env.VITE_FORMSPREE_FORM_ID?.trim() ||
   "xkoayjdn";
 const endpoint = formId.startsWith("https://")
   ? formId
@@ -21,6 +21,7 @@ export default function ContactForm() {
     "idle",
   );
   const [needsVerification, setNeedsVerification] = useState(false);
+  const [replyTo, setReplyTo] = useState("");
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     // A native POST lets Formspree show its verification page when required.
@@ -34,6 +35,7 @@ export default function ContactForm() {
     if (status === "sending") return;
     const form = event.currentTarget;
     const fields = new FormData(form);
+    const email = String(fields.get("email")).trim();
     const controller = new AbortController();
     const timeout = window.setTimeout(() => controller.abort(), 20000);
     setStatus("sending");
@@ -41,12 +43,26 @@ export default function ContactForm() {
     try {
       const response = await fetch(endpoint, {
         method: "POST",
-        headers: { Accept: "application/json" },
-        body: fields,
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        referrerPolicy: "strict-origin-when-cross-origin",
+        body: JSON.stringify({
+          ...Object.fromEntries(fields),
+          email,
+          _replyto: email,
+        }),
         signal: controller.signal,
       });
       const result = await response.json().catch(() => null);
-      if (!response.ok) {
+      if (
+        !response.ok ||
+        !result ||
+        result.ok === false ||
+        result.error ||
+        result.errors?.length
+      ) {
         const details = JSON.stringify(result || "");
         setNeedsVerification(
           /recaptcha|captcha|verification|ajax/i.test(details),
@@ -55,6 +71,7 @@ export default function ContactForm() {
         return;
       }
       form.reset();
+      setReplyTo("");
       setStatus("sent");
     } catch {
       setStatus("error");
@@ -97,8 +114,10 @@ export default function ContactForm() {
         <input
           type="hidden"
           name="_subject"
-          value="New message from Aayush's portfolio"
+          value="New message from Aayush's redesigned portfolio"
         />
+        <input type="hidden" name="_replyto" value={replyTo} />
+        <input type="hidden" name="source" value={window.location.hostname} />
         <div className="contact-honeypot" aria-hidden="true">
           <label htmlFor="contact-company">Leave this field empty</label>
           <input
@@ -133,6 +152,7 @@ export default function ContactForm() {
                 name="email"
                 type="email"
                 autoComplete="email"
+                onChange={(event) => setReplyTo(event.currentTarget.value.trim())}
                 placeholder="you@example.com"
                 required
                 maxLength={254}
@@ -168,7 +188,7 @@ export default function ContactForm() {
           <div className="form-notice form-success" role="status">
             <Check size={18} />
             <div>
-              <b>Message sent. Thank you!</b>
+              <b>Message submitted. Thank you!</b>
               <p>I’ll get back to you at the email address you provided.</p>
             </div>
           </div>

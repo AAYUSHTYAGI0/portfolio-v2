@@ -11,22 +11,42 @@ import {
   Check,
   Pause,
   Play,
+  BedDouble,
+  CalendarDays,
 } from "lucide-react";
 import { motion, MotionConfig, useReducedMotion } from "framer-motion";
-import { profile, projects } from "./content";
+import { profile, projects, type Project } from "./content";
 import HeroWorkspace from "./components/HeroWorkspace";
 import ContactForm from "./components/ContactForm";
 const filters = ["All projects", "AI & ML", "Full-stack", "Voice AI"];
-function ProjectVisual({ type }: { type: string }) {
+function ProjectVisual({ type }: { type: Project["visual"] }) {
   return (
     <div
       className={`project-visual visual-${type}`}
       aria-label="Illustrative project interface"
     >
-      <span className="preview-label">
-        INTERFACE STUDY / {type.toUpperCase()}
-      </span>
-      {type === "memory" ? (
+      {type !== "hotel" && type !== "campus" && (
+        <span className="preview-label">
+          INTERFACE STUDY / {type.toUpperCase()}
+        </span>
+      )}
+      {type === "hotel" || type === "campus" ? (
+        <div className="project-cover">
+          {type === "hotel" ? (
+            <>
+              <BedDouble aria-hidden="true" size={36} strokeWidth={1.25} />
+              <strong>Aurel Hotels</strong>
+              <span>Guest reservations · Hotel operations</span>
+            </>
+          ) : (
+            <>
+              <CalendarDays aria-hidden="true" size={36} strokeWidth={1.25} />
+              <strong>CampusCue</strong>
+              <span>LPU campus events · Scheduling</span>
+            </>
+          )}
+        </div>
+      ) : type === "memory" ? (
         <div className="memory-ui">
           <div className="mock-top">
             <span>✳ MEMORY AI</span>
@@ -199,7 +219,9 @@ function ProjectVisual({ type }: { type: string }) {
           <small>VOICE / REASONING / ACTION</small>
         </div>
       )}
-      <span className="visual-caption">CONCEPT PREVIEW</span>
+      {type !== "hotel" && type !== "campus" && (
+        <span className="visual-caption">CONCEPT PREVIEW</span>
+      )}
     </div>
   );
 }
@@ -436,6 +458,34 @@ export default function App() {
                       </a>
                     </div>
                     <p>{p.description}</p>
+                    <details className="project-details">
+                      <summary>Project details</summary>
+                      <ul>
+                        {p.highlights.map((highlight) => (
+                          <li key={highlight}>{highlight}</li>
+                        ))}
+                      </ul>
+                    </details>
+                    {p.live && p.github && (
+                      <div className="project-links">
+                        <a
+                          className="text-link"
+                          href={p.live}
+                          target="_blank"
+                          rel="noreferrer"
+                        >
+                          Live demo <ArrowUpRight size={14} />
+                        </a>
+                        <a
+                          className="text-link"
+                          href={p.github}
+                          target="_blank"
+                          rel="noreferrer"
+                        >
+                          Source code <Github size={14} />
+                        </a>
+                      </div>
+                    )}
                     <div className="project-tags">
                       {p.tags.map((t) => (
                         <span key={t}>{t}</span>
