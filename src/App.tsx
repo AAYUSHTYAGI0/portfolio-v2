@@ -11,13 +11,13 @@ import {
   Check,
   Pause,
   Play,
-  Utensils,
 } from "lucide-react";
 import { motion, MotionConfig, useReducedMotion } from "framer-motion";
 import { profile, projects, type Project } from "./content";
 import HeroWorkspace from "./components/HeroWorkspace";
 import ContactForm from "./components/ContactForm";
 import Certifications from "./components/Certifications";
+import CampusBiteDemo from "./components/CampusBiteDemo";
 const filters = ["All projects", "AI & ML", "Full-stack"];
 function ProjectVisual({ type }: { type: Project["visual"] }) {
   return (
@@ -35,11 +35,7 @@ function ProjectVisual({ type }: { type: Project["visual"] }) {
           <img src="/projects/aurel-room.webp" alt="Classic guest room featured on Aurel Hotels" loading="lazy" decoding="async" />
         </div>
       ) : type === "food" ? (
-        <div className="project-cover">
-          <Utensils aria-hidden="true" size={36} strokeWidth={1.25} />
-          <strong>CampusBite</strong>
-          <span>Campus food ordering · Scheduled pickup</span>
-        </div>
+        <CampusBiteDemo />
       ) : type === "memory" ? (
         <div className="memory-ui">
           <div className="mock-top">

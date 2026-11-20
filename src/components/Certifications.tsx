@@ -57,7 +57,7 @@ export default function Certifications() {
             <div className="certification-content">
               <p>{issuer}</p>
               <h3>{title}</h3>
-              <p>{date}{note && ` · ${note}`}</p>
+              <p>{date}{note && <><br />{note}</>}</p>
               <a
                 className="text-link"
                 href={verify || `/certificates/${image}`}
