@@ -5,6 +5,8 @@ const certificates = [
     title: "Google AI Essentials",
     issuer: "Google · Coursera",
     date: "October 4, 2026",
+    description:
+      "A five-course specialization on using AI in everyday work, with hands-on practice in prompting, productivity, and responsible use.",
     image: "google-ai-essentials.jpg",
     verify: "https://www.coursera.org/verify/specialization/I57DFFTOMANL",
   },
@@ -12,6 +14,8 @@ const certificates = [
     title: "Google Prompting Essentials",
     issuer: "Google · Coursera",
     date: "October 5, 2026",
+    description:
+      "A four-course specialization on writing and refining prompts for tasks like analyzing data, summarizing information, and building presentations.",
     image: "google-prompting-essentials.jpg",
     verify: "https://www.coursera.org/verify/specialization/FKH2I02GBC3C",
   },
@@ -19,6 +23,8 @@ const certificates = [
     title: "Career Essentials in Generative AI",
     issuer: "Microsoft · LinkedIn Learning",
     date: "October 6, 2026",
+    description:
+      "A learning path covering generative AI fundamentals, Microsoft Copilot, and responsible AI. It concludes with a final exam.",
     image: "generative-ai-career-essentials.jpg",
     verify: "https://www.linkedin.com/learning/certificates/49655ad371dcae66201df24c6f0b72716e69e177b1c668b6944999b26666d09b",
   },
@@ -26,8 +32,9 @@ const certificates = [
     title: "Code Heist Hackathon",
     issuer: "THRYVE · Lovely Professional University",
     date: "September 18–19, 2026",
+    description:
+      "Certificate of participation in Code Heist, a two-day hackathon organized by the THRYVE student organization at Lovely Professional University.",
     image: "code-heist.jpg",
-    note: "Certificate of participation",
   },
 ];
 
@@ -37,9 +44,25 @@ export default function Certifications() {
       <div className="section-heading">
         <h2>Certifications</h2>
       </div>
-      <div className="certification-grid">
-        {certificates.map(({ title, issuer, date, image, verify, note }) => (
+      <div className="certification-list">
+        {certificates.map(({ title, issuer, date, description, image, verify }) => (
           <article className="certification-card" key={title}>
+            <div className="certification-content">
+              <p className="certification-meta">{issuer}</p>
+              <h3>{title}</h3>
+              <p className="certification-meta">{date}</p>
+              <p className="certification-description">{description}</p>
+              <a
+                className="text-link"
+                href={verify || `/certificates/${image}`}
+                target="_blank"
+                rel="noreferrer"
+                aria-label={`${verify ? "Verify credential" : "View certificate"} for ${title}`}
+              >
+                {verify ? "Verify credential" : "View certificate"}
+                <ArrowUpRight size={15} aria-hidden="true" />
+              </a>
+            </div>
             <a
               className="certification-image"
               href={`/certificates/${image}`}
@@ -54,21 +77,6 @@ export default function Certifications() {
                 decoding="async"
               />
             </a>
-            <div className="certification-content">
-              <p>{issuer}</p>
-              <h3>{title}</h3>
-              <p>{date}{note && <><br />{note}</>}</p>
-              <a
-                className="text-link"
-                href={verify || `/certificates/${image}`}
-                target="_blank"
-                rel="noreferrer"
-                aria-label={`${verify ? "Verify credential" : "View certificate"} for ${title}`}
-              >
-                {verify ? "Verify credential" : "View certificate"}
-                <ArrowUpRight size={14} aria-hidden="true" />
-              </a>
-            </div>
           </article>
         ))}
       </div>
