@@ -11,40 +11,34 @@ import {
   Check,
   Pause,
   Play,
-  BedDouble,
-  CalendarDays,
+  Utensils,
 } from "lucide-react";
 import { motion, MotionConfig, useReducedMotion } from "framer-motion";
 import { profile, projects, type Project } from "./content";
 import HeroWorkspace from "./components/HeroWorkspace";
 import ContactForm from "./components/ContactForm";
-const filters = ["All projects", "AI & ML", "Full-stack", "Voice AI"];
+import Certifications from "./components/Certifications";
+const filters = ["All projects", "AI & ML", "Full-stack"];
 function ProjectVisual({ type }: { type: Project["visual"] }) {
   return (
     <div
       className={`project-visual visual-${type}`}
-      aria-label="Illustrative project interface"
     >
-      {type !== "hotel" && type !== "campus" && (
+      {(type === "memory" || type === "rescue") && (
         <span className="preview-label">
           INTERFACE STUDY / {type.toUpperCase()}
         </span>
       )}
-      {type === "hotel" || type === "campus" ? (
+      {type === "hotel" ? (
+        <div className="hotel-gallery">
+          <img src="/projects/aurel-main.webp" alt="Pool featured on Aurel Hotels" loading="lazy" decoding="async" />
+          <img src="/projects/aurel-room.webp" alt="Classic guest room featured on Aurel Hotels" loading="lazy" decoding="async" />
+        </div>
+      ) : type === "food" ? (
         <div className="project-cover">
-          {type === "hotel" ? (
-            <>
-              <BedDouble aria-hidden="true" size={36} strokeWidth={1.25} />
-              <strong>Aurel Hotels</strong>
-              <span>Guest reservations · Hotel operations</span>
-            </>
-          ) : (
-            <>
-              <CalendarDays aria-hidden="true" size={36} strokeWidth={1.25} />
-              <strong>CampusCue</strong>
-              <span>LPU campus events · Scheduling</span>
-            </>
-          )}
+          <Utensils aria-hidden="true" size={36} strokeWidth={1.25} />
+          <strong>CampusBite</strong>
+          <span>Campus food ordering · Scheduled pickup</span>
         </div>
       ) : type === "memory" ? (
         <div className="memory-ui">
@@ -77,7 +71,7 @@ function ProjectVisual({ type }: { type: Project["visual"] }) {
             <b>WITH SOURCE CITATIONS ↗</b>
           </div>
         </div>
-      ) : type === "rescue" ? (
+      ) : (
         <div className="rescue-ui">
           <svg
             className="rescue-map"
@@ -133,93 +127,8 @@ function ProjectVisual({ type }: { type: Project["visual"] }) {
             </div>
           </div>
         </div>
-      ) : type === "marketplace" ? (
-        <div className="phone">
-          <div className="phone-camera" />
-          <div className="phone-top">
-            expertedge<span>✳</span>
-          </div>
-          <small>THE RIGHT EXPERT. A REAL CONVERSATION.</small>
-          <h4>
-            A little advice.
-            <br />A big next step.
-          </h4>
-          <div className="expert-avatar">↗</div>
-          <div className="expert-info">
-            <b>Find your perspective.</b>
-            <span>Explore experts in your field</span>
-          </div>
-          <div className="phone-button">
-            Discover experts <ArrowUpRight size={13} />
-          </div>
-        </div>
-      ) : type === "agents" ? (
-        <div className="council-ui">
-          <div className="mock-top">
-            <span className="mini-dot" /> STOCK COUNCIL{" "}
-            <span>WORKSPACE ↗</span>
-          </div>
-          <h4>
-            More perspectives.
-            <br />
-            <em>Better decisions.</em>
-          </h4>
-          <div className="agent-row">
-            {["Technical", "Fundamental", "Risk"].map((a, i) => (
-              <div key={a}>
-                <span>{["◈", "⌁", "◎"][i]}</span>
-                <b>{a}</b>
-                <small>ANALYST {String(i + 1).padStart(2, "0")}</small>
-              </div>
-            ))}
-          </div>
-          <div className="mock-terminal">
-            <span>↳ council.deliberate()</span>
-            <div className="signal-bars">
-              {Array.from({ length: 29 }, (_, i) => (
-                <i key={i} style={{ height: `${10 + ((i * 17) % 45)}px` }} />
-              ))}
-            </div>
-            <small>THREE PERSPECTIVES. ONE CONVERSATION.</small>
-          </div>
-        </div>
-      ) : type === "knowledge" ? (
-        <div className="mind-ui">
-          <span className="mind-brand">✳ mindcraft</span>
-          <div className="mind-node node-center">Your next big idea</div>
-          <div className="mind-node node-one">Concept maps ↗</div>
-          <div className="mind-node node-two">Active recall ✳</div>
-          <div className="mind-node node-three">Deeper understanding</div>
-          <div className="mind-orbit" />
-          <p>
-            Less information overload.
-            <br />
-            <b>More lightbulb moments.</b>
-          </p>
-        </div>
-      ) : (
-        <div className="voice-ui">
-          <span>PERSONAL VOICE AGENT</span>
-          <div className="voice-orb">✳</div>
-          <div className="voice-wave">
-            {Array.from({ length: 35 }, (_, i) => (
-              <i
-                key={i}
-                style={{
-                  height: `${12 + Math.sin(i * 1.7) ** 2 * 45}px`,
-                  animationDelay: `${i * 0.07}s`,
-                }}
-              />
-            ))}
-          </div>
-          <h4>
-            A conversation.
-            <br />A little more intelligent.
-          </h4>
-          <small>VOICE / REASONING / ACTION</small>
-        </div>
       )}
-      {type !== "hotel" && type !== "campus" && (
+      {(type === "memory" || type === "rescue") && (
         <span className="visual-caption">CONCEPT PREVIEW</span>
       )}
     </div>
@@ -232,6 +141,12 @@ export default function App() {
   const [paused, setPaused] = useState(false);
   const reducedMotion = useReducedMotion();
   const still = paused || !!reducedMotion;
+  useEffect(() => {
+    const sectionId = window.location.hash.slice(1);
+    if (sectionId) {
+      document.getElementById(sectionId)?.scrollIntoView({ behavior: "instant" });
+    }
+  }, []);
   useEffect(() => {
     if (!copied) return;
     const timeout = window.setTimeout(() => setCopied(false), 2200);
@@ -263,6 +178,7 @@ export default function App() {
               ["Work", "#projects"],
               ["About", "#about"],
               ["Stack", "#skills"],
+              ["Certifications", "#certifications"],
             ].map(([name, href]) => (
               <a key={name} href={href} onClick={() => setMenuOpen(false)}>
                 {name}
@@ -611,10 +527,11 @@ export default function App() {
               ))}
             </div>
           </section>
+          <Certifications />
           <section id="contact" className="contact-section wrap">
             <div className="contact-top">
               <p className="eyebrow">
-                <span>04 /</span> NEXT STARTS WITH A HELLO
+                <span>05 /</span> NEXT STARTS WITH A HELLO
               </p>
               <span>
                 <i className="status-dot" /> OPEN TO WHAT’S NEXT
@@ -669,6 +586,7 @@ export default function App() {
             <a href={profile.x} target="_blank" rel="noreferrer">
               X ↗
             </a>
+            <a href="#certifications">Certifications</a>
             <a href="#home">Back to top ↑</a>
           </div>
         </footer>

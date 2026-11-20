@@ -9,19 +9,11 @@ export const profile = {
 export interface Project {
   number: string;
   title: string;
-  category: "AI & ML" | "Full-stack" | "Voice AI";
+  category: "AI & ML" | "Full-stack";
   description: string;
   highlights: string[];
   tags: string[];
-  visual:
-    | "marketplace"
-    | "agents"
-    | "knowledge"
-    | "voice"
-    | "memory"
-    | "rescue"
-    | "hotel"
-    | "campus";
+  visual: "memory" | "rescue" | "hotel" | "food";
   live?: string;
   github?: string;
 }
@@ -59,58 +51,6 @@ export const projects: Project[] = [
   },
   {
     number: "03",
-    title: "ExpertEdge",
-    category: "Full-stack",
-    description:
-      "Connecting people with the right expertise. A mobile-first consultation marketplace with scheduling, real-time chat, and integrated payments.",
-    highlights: [
-      "Book a consultation and manage appointments with calendar scheduling.",
-      "Chat with consultants in real time and pay through Razorpay.",
-    ],
-    tags: ["React Native", "Firebase", "Razorpay", "Node.js"],
-    visual: "marketplace",
-  },
-  {
-    number: "04",
-    title: "Stock Council AI",
-    category: "AI & ML",
-    description:
-      "A council of AI analysts, each with a different perspective. Exploring multi-agent reasoning through structured market research and debate.",
-    highlights: [
-      "Multiple analysts debate market signals before synthesizing a shared view.",
-      "Market data informs the discussion, and past debates are saved for review.",
-    ],
-    tags: ["Claude API", "React", "Supabase", "Python"],
-    visual: "agents",
-  },
-  {
-    number: "05",
-    title: "MindCraft AI",
-    category: "AI & ML",
-    description:
-      "Turning dense information into connected understanding. An AI study companion for concept maps, active recall, and clearer thinking.",
-    highlights: [
-      "Use Gemini to extract concepts and arrange them in an interactive mind map.",
-      "Export study decks to review what you’ve learned through active recall.",
-    ],
-    tags: ["Gemini API", "React", "Vite", "Tailwind CSS"],
-    visual: "knowledge",
-  },
-  {
-    number: "06",
-    title: "Personal AI Voice Agent",
-    category: "Voice AI",
-    description:
-      "An assistant that joins the conversation. Exploring natural voice interactions, call screening, and intelligent scheduling through connected AI tools.",
-    highlights: [
-      "Screen incoming calls and help schedule appointments through voice.",
-      "Use persona guidelines to keep responses consistent across calls.",
-    ],
-    tags: ["Bland.ai", "Vapi.ai", "Node.js"],
-    visual: "voice",
-  },
-  {
-    number: "07",
     title: "Aurel Hotels",
     category: "Full-stack",
     description:
@@ -125,18 +65,18 @@ export const projects: Project[] = [
     github: "https://github.com/aayushtyagi00/Aurel-Hotels-project",
   },
   {
-    number: "08",
-    title: "CampusCue",
+    number: "04",
+    title: "CampusBite",
     category: "Full-stack",
     description:
-      "An event hub for LPU students and organizers. Students can discover and register for events, while organizers can spot scheduling conflicts before publishing.",
+      "A food ordering and scheduled pickup platform for Lovely Professional University. Students can browse campus stalls and choose a pickup window.",
     highlights: [
-      "Compare the event time and target audience to detect clashes and suggest a nearby open slot.",
-      "Share a weekly event board with a QR code that opens CampusCue for browsing and registration.",
+      "Students can track orders and refunds when live checkout is configured.",
+      "Vendors manage shop orders, while administrators review applications and set pickup capacity.",
     ],
-    tags: ["React", "Vite", "Tailwind CSS", "QR Codes"],
-    visual: "campus",
-    live: "https://lpucampus.vercel.app/",
-    github: "https://github.com/aayushtyagi00/CampusCue",
+    tags: ["Next.js", "Supabase", "Razorpay", "Tailwind CSS"],
+    visual: "food",
+    live: "https://campusbite-lpu.vercel.app/",
+    github: "https://github.com/aayushtyagi00/Campusbite",
   },
 ];
